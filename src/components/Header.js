@@ -13,7 +13,7 @@ const Header = () => {
   };
 
   return (
-    <header className="">
+    <header className="absolute w-full">
       <nav className="flex justify-between w-full bg-customPrimary py-3 px-5 sm:flex hidden">
         <div className="flex">
           <div className="flex items-center mx-2 cursor-pointer">
