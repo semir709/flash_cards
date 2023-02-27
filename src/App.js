@@ -59,7 +59,7 @@ function App() {
           initial="default"
           key={index + 1}
         >
-          <Card data={data[index + 1]} />
+          <Card data={data[index + 1]} animation={false} />
         </motion.div>
 
         <AnimatePresence>
@@ -69,9 +69,15 @@ function App() {
             animate="move"
             exit="exit"
             key={index}
+
+            // onNext={onNext}
             // onClick={changeIndex}
           >
-            <Card data={data[index]} />
+            <Card
+              data={data[index]}
+              changeIndex={changeIndex}
+              animation={true}
+            />
           </motion.div>
         </AnimatePresence>
       </main>
