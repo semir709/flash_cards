@@ -7,6 +7,7 @@ module.exports = {
         customPrimary: "#DE3E6F",
         customOrange: "#F55139",
         customPurple: "#9E00FF",
+        customTextColor: "#353535",
       },
     },
   },

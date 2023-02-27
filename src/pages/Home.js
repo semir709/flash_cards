@@ -53,7 +53,7 @@ const Home = () => {
   };
 
   return (
-    <main className="h-screen w-full relative ">
+    <main className="h-screen  w-full relative ">
       <div className="">
         <motion.div
           variants={containerVariants}
