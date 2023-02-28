@@ -1,7 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import CategoryCard from "../components/CategoryCard";
+import LoadingFullScreen from "../components/LoadingFullScreen";
+import ModalWords from "../components/ModalWords";
 
 const Words = () => {
+  const [openModal, setOpenModal] = useState(false);
+  const [loadingModal, setLoadingModal] = useState(false);
+
+  const takeId = (e) => {
+    const id = e.target.parentNode.id;
+
+    //get all data for word with this id
+    // setLoadingModal(true);
+    // document.body.style.overflow = "hidden";
+
+    console.log("Get data");
+
+    // setLoadingModal(false);
+    // document.body.style.overflow = "auto";
+    setOpenModal(true);
+  };
   return (
     <>
       <div className="min-h-screen pt-[100px] px-[40px]">
@@ -17,16 +35,31 @@ const Words = () => {
           <div className="bg-customTextColor w-full h-[1px]"></div>
         </div>
         <div className="">
-          {category.map(({ name }) => (
-            <CategoryCard name={name} />
+          {category.map(({ name }, index) => (
+            <CategoryCard name={name} key={index} takeId={takeId} />
           ))}
         </div>
       </div>
+
+      {/* {loadingModal && <LoadingFullScreen />} */}
+      {openModal && <ModalWords data={data[0]} setOpenModal={setOpenModal} />}
     </>
   );
 };
 
 export default Words;
+
+const data = [
+  {
+    id: 1,
+    word: "Smile",
+    pronuced: "(Smajl)",
+    translate: "Osmjeh",
+    translate_info: "Smijeh, veseo",
+    rule_info: "no info",
+    grammar: "muški rod",
+  },
+];
 
 const list = [
   {
