@@ -31,29 +31,40 @@ const CategoryCard = ({ name }) => {
       </div>
 
       <div className=" bg-customPrimary w-full py-5 px-3 rounded-lg overflow-x-auto">
-        <ul className="w-full min-w-[500px] list-decimal text-white">
-          <tr className="flex  justify-between items-center text-left">
-            <th className="text-left min-w-[15%]">Word</th>
-            <th className="text-left w-[15%]">Grammar</th>
-            <th className="text-left w-[15%]">Translate</th>
-            <th className="text-left w-[15%]">Pronauced</th>
+        <table className="w-full text-white table-fixed min-w-[700px]">
+          <tr className="text-left ">
+            <th className="px-2">Word</th>
+            <th>Grammar</th>
+            <th>Translate</th>
+            <th>Pronauced</th>
           </tr>
           {words.map(({ word, grammar, translate, pronauced }) => (
-            <motion.li
-              whileHover={{
-                backgroundColor: ["#DE3E6F", "hsl(-120, 100, 50)"],
-              }}
-              onHoverStart={(e) => {}}
-              onHoverEnd={(e) => {}}
-              className="flex  justify-between items-center text-left cursor-pointer rounded-lg px-1 mb-1"
+            <motion.tr
+              className="group "
+              // whileHover={{
+              //   backgroundColor: "rgb(255, 255, 255, 0.2)",
+              //   cursor: "pointer",
+              //   // opacity: 0.1,
+              //   transition: {
+              //     duration: 0.1,
+              //   },
+              // }}
             >
-              <p className="text-left w-[15%]">{word}</p>
-              <p className="text-left w-[15%]">{grammar}</p>
-              <p className="text-left w-[15%]">{pronauced}</p>
-              <p className="text-left w-[15%]">{translate}</p>
-            </motion.li>
+              <td className="rounded-l-lg group-hover:bg-customHoverBgWhite cursor-pointer px-2">
+                {word}
+              </td>
+              <td className=" group-hover:bg-customHoverBgWhite cursor-pointer">
+                {grammar}
+              </td>
+              <td className=" group-hover:bg-customHoverBgWhite cursor-pointer">
+                {translate}
+              </td>
+              <td className="rounded-r-lg group-hover:bg-customHoverBgWhite cursor-pointer">
+                {pronauced}
+              </td>
+            </motion.tr>
           ))}
-        </ul>
+        </table>
       </div>
     </div>
   );
@@ -69,7 +80,7 @@ const words = [
     pronauced: "San",
   },
   {
-    word: "Ballasdasdasdasdasd",
+    word: "Ballasd",
     grammar: "muški rod",
     translate: "Lopta",
     pronauced: "Ball",

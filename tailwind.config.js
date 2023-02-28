@@ -8,6 +8,7 @@ module.exports = {
         customOrange: "#F55139",
         customPurple: "#9E00FF",
         customTextColor: "#353535",
+        customHoverBgWhite: "rgb(255, 255, 255, 0.2)",
       },
     },
   },
