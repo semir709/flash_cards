@@ -6,6 +6,7 @@ import ModalWords from "../components/ModalWords";
 const Words = () => {
   const [openModal, setOpenModal] = useState(false);
   const [loadingModal, setLoadingModal] = useState(false);
+  const [loadingLanguage, setLoadingLanguage] = useState(false);
 
   const takeId = (e) => {
     const id = e.target.parentNode.id;
@@ -14,19 +15,29 @@ const Words = () => {
     // setLoadingModal(true);
     // document.body.style.overflow = "hidden";
 
-    console.log("Get data");
-
     // setLoadingModal(false);
     // document.body.style.overflow = "auto";
     setOpenModal(true);
+  };
+
+  const getLanguage = (e) => {
+    const slug = e.target.getAttribute("data-slug");
+
+    //GET DATA USING SLUG
+    console.log("Get LANGUAGE data");
+    setLoadingLanguage(false);
   };
   return (
     <>
       <div className="min-h-screen pt-[100px] px-[40px]">
         <div className="my-2">
           <ul className="flex">
-            {list.map(({ language }) => (
-              <li className="mx-3 my-2 cursor-pointer text-customTextColor">
+            {list.map(({ language, slug }) => (
+              <li
+                className="mx-3 my-2 cursor-pointer text-customTextColor"
+                data-slug={slug}
+                onClick={getLanguage}
+              >
                 {language}
               </li>
             ))}
@@ -35,9 +46,13 @@ const Words = () => {
           <div className="bg-customTextColor w-full h-[1px]"></div>
         </div>
         <div className="">
-          {category.map(({ name }, index) => (
-            <CategoryCard name={name} key={index} takeId={takeId} />
-          ))}
+          {loadingLanguage ? (
+            <p>Loading...</p>
+          ) : (
+            category.map(({ name }, index) => (
+              <CategoryCard name={name} key={index} takeId={takeId} />
+            ))
+          )}
         </div>
       </div>
 
@@ -63,12 +78,15 @@ const data = [
 
 const list = [
   {
+    slug: "engleski",
     language: "Engleski",
   },
   {
+    slug: "arapski",
     language: "Arapski",
   },
   {
+    slug: "francuski",
     language: "Francuski",
   },
 ];
