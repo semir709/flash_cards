@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import CategoryCard from "../components/CategoryCard";
 import LoadingFullScreen from "../components/LoadingFullScreen";
 import ModalWords from "../components/ModalWords";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import { motion } from "framer-motion";
+import ListLanguage from "../components/ListLanguage";
 
 const Words = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -20,34 +24,16 @@ const Words = () => {
     setOpenModal(true);
   };
 
-  const getLanguage = (e) => {
-    const slug = e.target.getAttribute("data-slug");
-
-    //GET DATA USING SLUG
-    console.log("Get LANGUAGE data");
-    setLoadingLanguage(false);
-  };
   return (
     <>
       <div className="min-h-screen pt-[100px] px-[40px]">
         <div className="my-2">
-          <ul className="flex">
-            {list.map(({ language, slug }) => (
-              <li
-                className="mx-3 my-2 cursor-pointer text-customTextColor"
-                data-slug={slug}
-                onClick={getLanguage}
-              >
-                {language}
-              </li>
-            ))}
-          </ul>
-
+          <ListLanguage data={list} />
           <div className="bg-customTextColor w-full h-[1px]"></div>
         </div>
-        <div className="">
+        <div className="mx-4">
           {loadingLanguage ? (
-            <p>Loading...</p>
+            <Skeleton count={10} className=" h-[40px] my-[20px] rounded-lg" />
           ) : (
             category.map(({ name }, index) => (
               <CategoryCard name={name} key={index} takeId={takeId} />

@@ -14,7 +14,7 @@ const CategoryCard = ({ name, takeId }) => {
     else setToggle(true);
   };
   return (
-    <div className="mx-4">
+    <div className="">
       <div
         onClick={onToggle}
         className="w-full my-5 bg-customPrimary flex justify-between
