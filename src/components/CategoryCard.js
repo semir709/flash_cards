@@ -8,13 +8,22 @@ import ModalWords from "./ModalWords";
 
 const CategoryCard = ({ name, takeId }) => {
   const [toggle, setToggle] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   const onToggle = () => {
     if (toggle) setToggle(false);
     else setToggle(true);
   };
   return (
-    <div className="">
+    <motion.div
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
+      whileHover={{
+        translateY: -10,
+      }}
+      transition={{ duration: 0.2, ease: "easeInOut" }}
+      className=""
+    >
       <div
         onClick={onToggle}
         className="w-full my-5 bg-customPrimary flex justify-between
@@ -33,11 +42,31 @@ const CategoryCard = ({ name, takeId }) => {
               />
             </div>
           </div>
-          <div className="mx-2">{name}</div>
+          <motion.div
+            className="mx-2"
+            variants={{
+              hovered: { wordSpacing: "5px" },
+              unhovered: { wordSpacing: "0px" },
+            }}
+            animate={isHovered ? "hovered" : "unhovered"}
+          >
+            {name}
+          </motion.div>
         </div>
 
-        <div className="" onClick={onToggle}>
-          {toggle ? (
+        <motion.div
+          variants={{
+            hovered: { rotate: 360 },
+            unhovered: { rotate: 0 },
+          }}
+          animate={isHovered ? "hovered" : "unhovered"}
+          onClick={onToggle}
+        >
+          <MdOutlineKeyboardArrowDown
+            fontSize={30}
+            className="cursor-pointer"
+          />
+          {/* {toggle ? (
             <MdOutlineKeyboardArrowUp
               fontSize={30}
               className="cursor-pointer"
@@ -47,8 +76,8 @@ const CategoryCard = ({ name, takeId }) => {
               fontSize={30}
               className="cursor-pointer"
             />
-          )}
-        </div>
+          )} */}
+        </motion.div>
       </div>
 
       {toggle && (
@@ -79,7 +108,7 @@ const CategoryCard = ({ name, takeId }) => {
           </table>
         </div>
       )}
-    </div>
+    </motion.div>
   );
 };
 
