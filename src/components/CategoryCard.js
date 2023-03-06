@@ -90,7 +90,7 @@ const CategoryCard = ({ name, takeId }) => {
             </div>
           </div>
           <motion.div
-            className="mx-2"
+            className="mx-2 select-none"
             variants={letterHover}
             animate={isHovered ? "open" : "initial"}
           >

@@ -1,5 +1,6 @@
 import React from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
+import { motion } from "framer-motion";
 
 const ModalWords = ({
   data: { word, translate, pronuced, grammar, rule_info, translate_info },
@@ -8,13 +9,34 @@ const ModalWords = ({
   const closeModal = () => {
     setOpenModal(false);
   };
+
+  const variations = {
+    initial: {
+      scale: 0,
+      translateX: "-50%",
+      translateY: "-50%",
+    },
+    open: {
+      scale: 1,
+    },
+    exit: {
+      scale: 0,
+      transition: {
+        duration: 0.1,
+      },
+    },
+  };
   return (
     <>
       <div className="bg-white opacity-70 fixed top-0 left-0 w-full h-full "></div>
 
-      <div
+      <motion.div
+        variants={variations}
+        initial="initial"
+        animate="open"
+        exit="exit"
         className="bg-customPrimary py-5 px-3 rounded-lg text-white sm:w-[500px] w-[90%] min-h-[100px] sm:max-h-[500px] max-h-fit 
-        fixed top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center px-5"
+        fixed top-[50%] left-[50%]  flex flex-col items-center px-5"
       >
         <AiOutlineCloseCircle
           fontSize={25}
@@ -39,7 +61,7 @@ const ModalWords = ({
             aspernat
           </p>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 };

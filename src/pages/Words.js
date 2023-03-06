@@ -4,7 +4,7 @@ import LoadingFullScreen from "../components/LoadingFullScreen";
 import ModalWords from "../components/ModalWords";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import ListLanguage from "../components/ListLanguage";
 
 const Words = () => {
@@ -43,7 +43,10 @@ const Words = () => {
       </div>
 
       {/* {loadingModal && <LoadingFullScreen />} */}
-      {openModal && <ModalWords data={data[0]} setOpenModal={setOpenModal} />}
+
+      <AnimatePresence>
+        {openModal && <ModalWords data={data[0]} setOpenModal={setOpenModal} />}
+      </AnimatePresence>
     </>
   );
 };
