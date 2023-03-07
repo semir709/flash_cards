@@ -77,18 +77,6 @@ const CategoryCard = ({ name, takeId }) => {
          items-center px-5 py-1 rounded-lg text-white cursor-pointer"
       >
         <div className="flex items-center">
-          <div class="flex items-center mr-4">
-            <div class="flex items-center ">
-              <input
-                onClick={(e) => e.stopPropagation()}
-                type={"checkbox"}
-                class="w-4 h-4 text-blue-600 bg-gray-100
-                        rounded focus:ring-transparent
-                        dark:focus:ring-transparent dark:ring-offset-transparent
-                        focus:ring-2 dark:bg-transparent dark:border-transparent"
-              />
-            </div>
-          </div>
           <motion.div
             className="mx-2 select-none"
             variants={letterHover}
