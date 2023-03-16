@@ -9,6 +9,7 @@ module.exports = {
         customPurple: "#9E00FF",
         customTextColor: "#353535",
         customHoverBgWhite: "rgb(255, 255, 255, 0.2)",
+        customGray: "#5F5F5F",
       },
     },
   },

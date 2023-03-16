@@ -10,8 +10,8 @@ const Home = () => {
 
   const containerVariants = {
     default: {
-      width: `${!(window.innerWidth < 440) ? "300px" : "100%"}`,
-      height: 200,
+      width: `${!(window.innerWidth < 440) ? "385px" : "100%"}`,
+      height: 400,
       position: "absolute",
       top: "105%",
       left: `${!(window.innerWidth < 640) ? "-4%" : "50%"}`,
