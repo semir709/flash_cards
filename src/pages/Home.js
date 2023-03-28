@@ -1,145 +1,78 @@
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import Card from "../components/Card";
-
-import { useEffect } from "react";
+import {
+  motion,
+  AnimatePresence,
+  useMotionValue,
+  useTransform,
+} from "framer-motion";
+// import Card from "../components/Card";
 
 const Home = () => {
   const [index, setIndex] = useState(0);
-  const [data, setData] = useState(obj);
 
-  const containerVariants = {
-    default: {
-      width: `${!(window.innerWidth < 440) ? "385px" : "100%"}`,
-      height: 400,
-      position: "absolute",
-      top: "105%",
-      left: `${!(window.innerWidth < 640) ? "-4%" : "50%"}`,
-      translateX: `${!(window.innerWidth < 640) ? "0%" : "-50%"}`,
-      translateY: "-100%",
-      scale: 0.5,
-    },
-    move: {
-      top: "50%",
-      left: "50%",
-      translateY: "-50%",
-      translateX: "-50%",
-      scale: 1,
-      transition: {
-        // delay: 1,
-        duration: 0.5,
-      },
-    },
+  const x = useMotionValue(0);
+  const xInput = [-100, 0, 100];
+  const background = useTransform(x, xInput, [
+    "#ff008c",
+    "#fff",
+    "rgb(230, 255, 0)",
+  ]);
 
-    exit: {
-      x: 1200,
-      opacity: 0,
-      transition: {
-        duration: 0.5,
-      },
-    },
-  };
-
-  const changeIndex = () => {
-    if (index + 1 === data.length - 1) {
-      const last = data[data.length - 1]; // take last element
-      data.pop(); // remove last element
-      data.sort(() => Math.random() - 0.5); // randomize order of elements
-      data.unshift(last); // add last element on the beginnig of array
-      setIndex(0);
-    } else {
-      setIndex((prev) => prev + 1);
-    }
-  };
-
+  const tickPath = useTransform(x, [10, 100], [0, 1]);
+  const crossPathA = useTransform(x, [-10, -55], [0, 1]);
+  const crossPathB = useTransform(x, [-50, -100], [0, 1]);
+  const color = useTransform(x, xInput, [
+    "rgb(211, 9, 225)",
+    "rgb(68, 0, 255)",
+    "rgb(3, 209, 0)",
+  ]);
   return (
-    <main className="h-screen  w-full relative ">
-      <div className="">
-        <motion.div
-          variants={containerVariants}
-          initial="default"
-          key={index + 1}
-        >
-          <Card data={data[index + 1]} animation={false} />
-        </motion.div>
-      </div>
+    <motion.div
+      style={{ background }}
+      className="h-screen  w-full flex justify-between items-stretch"
+    >
+      <div>left</div>
+      <div className="relative">
+        <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 ">
+          <motion.div
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            style={{ x }}
+            className="w-[300px] h-[400px] bg-red-300"
+          >
+            <svg className="progress-icon" viewBox="0 0 50 50">
+              <motion.path
+                fill="none"
+                strokeWidth="2"
+                stroke={color}
+                d="M14,26 L 22,33 L 35,16"
+                strokeDasharray="0 1"
+                style={{ pathLength: tickPath }}
+              />
 
-      <AnimatePresence>
-        <motion.div
-          variants={containerVariants}
-          initial="default"
-          animate="move"
-          exit="exit"
-          key={index}
-          drag
-          dragConstraints={{
-            top: -50,
-            left: -50,
-            right: 50,
-            bottom: 50,
-          }}
-        >
-          <Card data={data[index]} changeIndex={changeIndex} animation={true} />
-        </motion.div>
-      </AnimatePresence>
-    </main>
+              <motion.path
+                fill="none"
+                strokeWidth="2"
+                stroke={color}
+                d="M17,17 L33,33"
+                strokeDasharray="0 1"
+                style={{ pathLength: crossPathA }}
+              />
+              <motion.path
+                fill="none"
+                strokeWidth="2"
+                stroke={color}
+                d="M33,17 L17,33"
+                strokeDasharray="0 1"
+                style={{ pathLength: crossPathB }}
+              />
+            </svg>
+          </motion.div>
+        </div>
+      </div>
+      <div>right</div>
+    </motion.div>
   );
 };
 
 export default Home;
-
-let obj = [
-  {
-    id: 1,
-    word: "Smile",
-    pronuced: "(Smajl)",
-    translate: "Osmjeh",
-    translate_info: "Smijeh, veseo",
-    rule_info: "no info",
-  },
-
-  {
-    id: 2,
-    word: "Man",
-    pronuced: "(Men)",
-    translate: "Čovjek",
-    translate_info: "Čovjek, osoba, muškarac",
-    rule_info: "Muški rod za osobu",
-  },
-
-  {
-    id: 3,
-    word: "Ball",
-    pronuced: "(Booll)",
-    translate: "Lopta",
-    translate_info: "no translate info",
-    rule_info: "za muški i ženski rod",
-  },
-
-  {
-    id: 4,
-    word: "Football",
-    pronuced: "(Futball)",
-    translate: "Nogomeeet",
-    translate_info: "no translate info",
-    rule_info: "za muški i ženski rod",
-  },
-
-  {
-    id: 5,
-    word: "House",
-    pronuced: "(Hause)",
-    translate: "Kuca",
-    translate_info: "no translate info",
-    rule_info: "za muški i ženski rod",
-  },
-
-  {
-    id: 6,
-    word: "Best",
-    pronuced: "(Best)",
-    translate: "Najbolji",
-    translate_info: "no translate info",
-    rule_info: "za muški i ženski rod",
-  },
-];

@@ -5,6 +5,7 @@ import { BsBook, BsHouse, BsGraphUp, BsPatchQuestion } from "react-icons/bs";
 import { FiMenu } from "react-icons/fi";
 import { AiOutlineClose } from "react-icons/ai";
 import CustomItem from "./CustomItem";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [toggle, setToggle] = useState(false);
@@ -13,27 +14,35 @@ const Header = () => {
       <nav className="hidden sm:block">
         <ul>
           <li>
-            <CustomItem text="Home">
-              <BsHouse fontSize={20} />
-            </CustomItem>
+            <Link to="/">
+              <CustomItem text="Home">
+                <BsHouse fontSize={20} />
+              </CustomItem>
+            </Link>
           </li>
 
           <li>
-            <CustomItem text="Languages">
-              <BsBook fontSize={20} />
-            </CustomItem>
+            <Link to="/languages">
+              <CustomItem text="Languages">
+                <BsBook fontSize={20} />
+              </CustomItem>
+            </Link>
           </li>
 
           <li>
-            <CustomItem text="Progress">
-              <BsGraphUp fontSize={20} />
-            </CustomItem>
+            <Link to="/progress">
+              <CustomItem text="Progress">
+                <BsGraphUp fontSize={20} />
+              </CustomItem>
+            </Link>
           </li>
 
           <li>
-            <CustomItem text="About Us">
-              <BsPatchQuestion fontSize={20} />
-            </CustomItem>
+            <Link to="/about">
+              <CustomItem text="About Us">
+                <BsPatchQuestion fontSize={20} />
+              </CustomItem>
+            </Link>
           </li>
         </ul>
       </nav>
@@ -57,27 +66,35 @@ const Header = () => {
         <motion.div>
           <ul>
             <li>
-              <CustomItem text="Home">
-                <BsHouse fontSize={20} />
-              </CustomItem>
+              <Link to="/">
+                <CustomItem text="Home">
+                  <BsHouse fontSize={20} />
+                </CustomItem>
+              </Link>
             </li>
 
             <li>
-              <CustomItem text="Languages">
-                <BsBook fontSize={20} />
-              </CustomItem>
+              <Link to="/languages">
+                <CustomItem text="Languages">
+                  <BsBook fontSize={20} />
+                </CustomItem>
+              </Link>
             </li>
 
             <li>
-              <CustomItem text="Progress">
-                <BsGraphUp fontSize={20} />
-              </CustomItem>
+              <Link to="/progress">
+                <CustomItem text="Progress">
+                  <BsGraphUp fontSize={20} />
+                </CustomItem>
+              </Link>
             </li>
 
             <li>
-              <CustomItem text="About Us">
-                <BsPatchQuestion fontSize={20} />
-              </CustomItem>
+              <Link to="about">
+                <CustomItem text="About Us">
+                  <BsPatchQuestion fontSize={20} />
+                </CustomItem>
+              </Link>
             </li>
           </ul>
         </motion.div>
