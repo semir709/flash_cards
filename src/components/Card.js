@@ -1,63 +1,83 @@
-import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
-const Card = ({ data, changeIndex, animation }) => {
-  const [flip, setFlip] = useState(false);
-  const [count, setCount] = useState(0);
-  const cardRef = useRef(null);
+import React, { useState } from "react";
+import { motion, useTransform, useMotionValue } from "framer-motion";
+const Card = ({ data, setArray, array }) => {
+  const x = useMotionValue(0);
+  const xInput = [-100, 0, 100];
+  const tickPath = useTransform(x, [10, 100], [0, 1]);
+  const crossPathA = useTransform(x, [-10, -55], [0, 1]);
+  const crossPathB = useTransform(x, [-50, -100], [0, 1]);
+  const color = useTransform(x, xInput, [
+    "rgb(211, 9, 225)",
+    "rgb(68, 0, 255)",
+    "rgb(3, 209, 0)",
+  ]);
 
-  const next = (e) => {
-    e.stopPropagation();
-    changeIndex();
+  const swipeConfidenceThreshold = 300;
+  const [dragDirection, setDragDirection] = useState(null);
+
+  const removeLastElement = (array) => {
+    const arr = [...array];
+    arr.pop();
+    setArray(arr);
   };
 
-  const toAnimate = (boolean) => {
-    if (animation) {
-      setFlip(boolean);
+  const handleDrag = (event, info) => {
+    if (info.offset.x < -swipeConfidenceThreshold) {
+      setDragDirection("left");
+      removeLastElement(array);
+    } else if (info.offset.x > swipeConfidenceThreshold) {
+      setDragDirection("right");
+      removeLastElement(array);
     }
   };
-
   return (
-    <div
-      ref={cardRef}
-      className={`w-full h-full [perspective:1000px;] group transition duration-500  absolute`}
-    >
-      <div
-        className={` ${
-          flip && "[transform:rotateY(180deg)]"
-        }  relative w-full h-full
-[transform-style:preserve-3d] transition duration-500  `}
+    <div className="absolute">
+      <motion.div
+        className=" bg-green-300 m-5 w-[100px] h-[100px] absolute"
+        drag="x"
+        style={{ x }}
+        dragConstraints={{ left: 0, right: 0 }}
+        onDragEnd={handleDrag}
+        animate={
+          dragDirection === "right"
+            ? { x: 1000, opacity: 0 }
+            : dragDirection === "left"
+            ? { x: -1000 }
+            : { x: 0 }
+        }
+        transition={{ duration: 1 }}
+        exit="exit"
       >
-        <div
-          onClick={() => toAnimate(true)}
-          className="w-full h-full bg-gradient-to-tl from-customPurple to-customOrange rounded-3xl p-3
-    flex flex-col justify-between items-center cursor-pointer 
-    [backface-visibility:hidden] absolute"
-        >
-          <div className="flex flex-col items-center my-5">
-            <h2 className="text-white text-3xl mt-[40px]">{data.word}</h2>
-            <p className="text-white text-lg mt-2">{data.pronuced}</p>
-          </div>
-          <span className="text-white ">{data.rule_info}</span>
-        </div>
+        {data}
 
-        <div
-          onClick={() => toAnimate(false)}
-          className="w-full h-full bg-gradient-to-tl from-customOrange to-customPurple
-    rounded-3xl p-3 flex flex-col items-center justify-between cursor-pointer
-    [transform:rotateY(180deg)] [backface-visibility:hidden] absolute "
-        >
-          <div className="flex flex-col items-center">
-            <h2 className="text-white text-3xl mt-[50px]">{data.translate}</h2>
-            <p className="text-white text-lg mt-2">{data.translate_info}</p>
-          </div>
+        <svg className="progress-icon" viewBox="0 0 50 50">
+          <motion.path
+            fill="none"
+            strokeWidth="2"
+            stroke={color}
+            d="M14,26 L 22,33 L 35,16"
+            strokeDasharray="0 1"
+            style={{ pathLength: tickPath }}
+          />
 
-          <div className="ml-auto mr-5">
-            <button onClick={next} className="text-white">
-              Next
-            </button>
-          </div>
-        </div>
-      </div>
+          <motion.path
+            fill="none"
+            strokeWidth="2"
+            stroke={color}
+            d="M17,17 L33,33"
+            strokeDasharray="0 1"
+            style={{ pathLength: crossPathA }}
+          />
+          <motion.path
+            fill="none"
+            strokeWidth="2"
+            stroke={color}
+            d="M33,17 L17,33"
+            strokeDasharray="0 1"
+            style={{ pathLength: crossPathB }}
+          />
+        </svg>
+      </motion.div>
     </div>
   );
 };
