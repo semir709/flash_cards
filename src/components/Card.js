@@ -34,7 +34,7 @@ const Card = ({ data, setIndex }) => {
   return (
     <>
       <motion.div
-        className=" bg-green-300 m-5 w-full h-full absolute "
+        className=" bg-green-300  w-full h-full absolute "
         ref={refCard}
         drag="x"
         style={{ x }}
