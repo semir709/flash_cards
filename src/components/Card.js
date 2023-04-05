@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { motion, useTransform, useMotionValue } from "framer-motion";
-const Card = ({ data, setArray, array }) => {
+import CorrectIncorrect from "./CorrectIncorrect";
+
+const Card = ({ data, setIndex }) => {
   const x = useMotionValue(0);
   const xInput = [-100, 0, 100];
   const tickPath = useTransform(x, [10, 100], [0, 1]);
@@ -14,71 +16,50 @@ const Card = ({ data, setArray, array }) => {
 
   const swipeConfidenceThreshold = 300;
   const [dragDirection, setDragDirection] = useState(null);
-
-  const removeLastElement = (array) => {
-    const arr = [...array];
-    arr.pop();
-    setArray(arr);
-  };
+  const refCard = useRef();
 
   const handleDrag = (event, info) => {
     if (info.offset.x < -swipeConfidenceThreshold) {
       setDragDirection("left");
-      removeLastElement(array);
+      if (setIndex) setIndex((prev) => prev + 1);
     } else if (info.offset.x > swipeConfidenceThreshold) {
       setDragDirection("right");
-      removeLastElement(array);
+      if (setIndex)
+        setIndex((prev) => {
+          console.log(prev);
+          return prev + 1;
+        });
     }
   };
   return (
-    <div className="absolute">
+    <>
       <motion.div
-        className=" bg-green-300 m-5 w-[100px] h-[100px] absolute"
+        className=" bg-green-300 m-5 w-full h-full absolute "
+        ref={refCard}
         drag="x"
         style={{ x }}
         dragConstraints={{ left: 0, right: 0 }}
         onDragEnd={handleDrag}
         animate={
           dragDirection === "right"
-            ? { x: 1000, opacity: 0 }
+            ? { x: 500, opacity: 0 }
             : dragDirection === "left"
-            ? { x: -1000 }
+            ? { x: -500, opacity: 0 }
             : { x: 0 }
         }
-        transition={{ duration: 1 }}
+        transition={{ duration: 0.2 }}
         exit="exit"
       >
         {data}
 
-        <svg className="progress-icon" viewBox="0 0 50 50">
-          <motion.path
-            fill="none"
-            strokeWidth="2"
-            stroke={color}
-            d="M14,26 L 22,33 L 35,16"
-            strokeDasharray="0 1"
-            style={{ pathLength: tickPath }}
-          />
-
-          <motion.path
-            fill="none"
-            strokeWidth="2"
-            stroke={color}
-            d="M17,17 L33,33"
-            strokeDasharray="0 1"
-            style={{ pathLength: crossPathA }}
-          />
-          <motion.path
-            fill="none"
-            strokeWidth="2"
-            stroke={color}
-            d="M33,17 L17,33"
-            strokeDasharray="0 1"
-            style={{ pathLength: crossPathB }}
-          />
-        </svg>
+        <CorrectIncorrect
+          tickPath={tickPath}
+          crossPathA={crossPathA}
+          crossPathB={crossPathB}
+          color={color}
+        />
       </motion.div>
-    </div>
+    </>
   );
 };
 

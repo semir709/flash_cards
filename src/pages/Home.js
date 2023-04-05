@@ -6,7 +6,9 @@ const Home = () => {
     <div className="h-screen  w-full flex justify-between items-stretch">
       <div>left</div>
       <div className="flex h-full justify-center items-center">
-        <StackOfCards cards={["Card 1", "Card 2", "Card 3"]} />
+        <div className="w-[300px] h-[400px]">
+          <StackOfCards cards={data} />
+        </div>
       </div>
       <div>right</div>
     </div>
@@ -14,3 +16,26 @@ const Home = () => {
 };
 
 export default Home;
+
+const data = [
+  {
+    id: 1,
+    title: "Card 1",
+  },
+  {
+    id: 2,
+    title: "Card 2",
+  },
+  {
+    id: 3,
+    title: "Card 3",
+  },
+  {
+    id: 4,
+    title: "Card 4",
+  },
+  {
+    id: 5,
+    title: "Card 5",
+  },
+];
