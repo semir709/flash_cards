@@ -1,10 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import Card from "./Card";
 
-const StackOfCards = ({ cards }) => {
+const StackOfCards = ({ cards, width, height }) => {
   const [array, setArray] = useState(cards);
   const [index, setIndex] = useState(0);
+  const [message, setMessage] = useState(false);
+
+  useEffect(() => {
+    const visited = JSON.parse(localStorage.getItem("visited"));
+
+    if (!visited) {
+      localStorage.setItem("visited", "true");
+      setMessage(true);
+      setTimeout(() => setMessage(false), 3000);
+    }
+  }, []);
 
   const shuffleArray = (arr) => {
     for (let i = arr.length - 1; i > 0; i--) {
@@ -18,12 +29,7 @@ const StackOfCards = ({ cards }) => {
   };
 
   useEffect(() => {
-    console.log(array);
-    console.log(index);
-
     if (index + 1 === array.length - 1) {
-      console.log("next is last");
-      // setIsUpdating(true);
       const next = array[index + 1];
       const current = array[index];
 
@@ -39,16 +45,24 @@ const StackOfCards = ({ cards }) => {
   }, [index, array]);
 
   return (
-    <div className="relative w-full h-full">
-      <AnimatePresence>
-        <Card key={cards[index + 1].id} data={cards[index + 1].title} />
+    <div className=" h-full w-full flex flex-col items-center justify-center ">
+      {message && (
+        <div className="flex w-full justify-between">
+          <div>Move left</div>
+          <div>Move rigth</div>
+        </div>
+      )}
+      <div className={`w-[${width}px] h-[${height}px] relative mx-auto`}>
+        <AnimatePresence>
+          <Card key={cards[index + 1].id} data={cards[index + 1].title} />
 
-        <Card
-          key={cards[index].id}
-          data={cards[index].title}
-          setIndex={setIndex}
-        />
-      </AnimatePresence>
+          <Card
+            key={cards[index].id}
+            data={cards[index].title}
+            setIndex={setIndex}
+          />
+        </AnimatePresence>
+      </div>
     </div>
   );
 };
