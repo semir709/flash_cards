@@ -12,7 +12,7 @@ const Header = () => {
   return (
     <header className="fixed z-50 mt-2 ml-2">
       <nav className="hidden sm:block">
-        <ul>
+        <ul className="flex">
           <li>
             <Link to="/">
               <CustomItem text="Home">
@@ -39,7 +39,7 @@ const Header = () => {
 
           <li>
             <Link to="/about">
-              <CustomItem text="About Us">
+              <CustomItem text="About">
                 <BsPatchQuestion fontSize={20} />
               </CustomItem>
             </Link>
@@ -52,7 +52,7 @@ const Header = () => {
         onClick={() => setToggle((prev) => !prev)}
       >
         {toggle ? (
-          <CustomItem text="Close">
+          <CustomItem>
             <AiOutlineClose fontSize={20} />
           </CustomItem>
         ) : (
@@ -67,7 +67,7 @@ const Header = () => {
           <ul>
             <li>
               <Link to="/">
-                <CustomItem text="Home">
+                <CustomItem>
                   <BsHouse fontSize={20} />
                 </CustomItem>
               </Link>
@@ -75,7 +75,7 @@ const Header = () => {
 
             <li>
               <Link to="/languages">
-                <CustomItem text="Languages">
+                <CustomItem>
                   <BsBook fontSize={20} />
                 </CustomItem>
               </Link>
@@ -83,7 +83,7 @@ const Header = () => {
 
             <li>
               <Link to="/progress">
-                <CustomItem text="Progress">
+                <CustomItem>
                   <BsGraphUp fontSize={20} />
                 </CustomItem>
               </Link>
@@ -91,7 +91,7 @@ const Header = () => {
 
             <li>
               <Link to="about">
-                <CustomItem text="About Us">
+                <CustomItem>
                   <BsPatchQuestion fontSize={20} />
                 </CustomItem>
               </Link>
