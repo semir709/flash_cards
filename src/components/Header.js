@@ -29,13 +29,13 @@ const Header = () => {
             </Link>
           </li>
 
-          <li>
+          {/* <li>
             <Link to="/progress">
               <CustomItem text="Progress">
                 <BsGraphUp fontSize={20} />
               </CustomItem>
             </Link>
-          </li>
+          </li> */}
 
           <li>
             <Link to="/about">
@@ -81,13 +81,13 @@ const Header = () => {
               </Link>
             </li>
 
-            <li>
+            {/* <li>
               <Link to="/progress">
                 <CustomItem>
                   <BsGraphUp fontSize={20} />
                 </CustomItem>
               </Link>
-            </li>
+            </li> */}
 
             <li>
               <Link to="about">
