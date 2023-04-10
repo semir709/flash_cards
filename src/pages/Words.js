@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CategoryCard from "../components/CategoryCard";
 import LoadingFullScreen from "../components/LoadingFullScreen";
 import ModalWords from "../components/ModalWords";
@@ -6,14 +6,35 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { motion, AnimatePresence } from "framer-motion";
 import ListLanguage from "../components/ListLanguage";
+import { client } from "../client";
+import { getCategories, getList, getWordsFull } from "../utils/data";
 
 const Words = () => {
   const [openModal, setOpenModal] = useState(false);
   const [loadingModal, setLoadingModal] = useState(false);
   const [loadingLanguage, setLoadingLanguage] = useState(false);
+  const [category, setCategory] = useState([]);
+  const [word, setWord] = useState(null);
+
+  useEffect(() => {
+    const queryData = getCategories("engleski", 0, 1);
+    client.fetch(queryData).then((data) => {
+      setCategory(data);
+    });
+  }, []);
 
   const takeId = (e) => {
+    setLoadingModal(true);
+    document.body.style.overflow = "hidden";
     const id = e.target.parentNode.id;
+    const queryWords = getWordsFull(id);
+    client.fetch(queryWords).then((data) => {
+      console.log(data[0]);
+      setWord(data[0]);
+      setLoadingModal(false);
+      document.body.style.overflow = "auto";
+      setOpenModal(true);
+    });
 
     //get all data for word with this id
     // setLoadingModal(true);
@@ -21,7 +42,7 @@ const Words = () => {
 
     // setLoadingModal(false);
     // document.body.style.overflow = "auto";
-    setOpenModal(true);
+    // setOpenModal(true);
   };
 
   return (
@@ -35,17 +56,22 @@ const Words = () => {
           {loadingLanguage ? (
             <Skeleton count={10} className=" h-[40px] my-[20px] rounded-lg" />
           ) : (
-            category.map(({ name }, index) => (
-              <CategoryCard name={name} key={index} takeId={takeId} />
+            category.map(({ category_name, _id }, index) => (
+              <CategoryCard
+                name={category_name}
+                key={_id}
+                id={_id}
+                takeId={takeId}
+              />
             ))
           )}
         </div>
       </div>
 
-      {/* {loadingModal && <LoadingFullScreen />} */}
+      {loadingModal && <LoadingFullScreen />}
 
       <AnimatePresence>
-        {openModal && <ModalWords data={data[0]} setOpenModal={setOpenModal} />}
+        {openModal && <ModalWords data={word} setOpenModal={setOpenModal} />}
       </AnimatePresence>
     </>
   );
@@ -80,28 +106,28 @@ const list = [
   },
 ];
 
-const category = [
-  {
-    name: "Why, Where, Who?",
-  },
+// const category = [
+//   {
+//     name: "Why, Where, Who?",
+//   },
 
-  {
-    name: "House, kitchen, staff",
-  },
+//   {
+//     name: "House, kitchen, staff",
+//   },
 
-  {
-    name: "Sports",
-  },
-  {
-    name: "Tools",
-  },
-  {
-    name: "Toys",
-  },
-  {
-    name: "Animals",
-  },
-  {
-    name: "Nautre",
-  },
-];
+//   {
+//     name: "Sports",
+//   },
+//   {
+//     name: "Tools",
+//   },
+//   {
+//     name: "Toys",
+//   },
+//   {
+//     name: "Animals",
+//   },
+//   {
+//     name: "Nautre",
+//   },
+// ];

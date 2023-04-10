@@ -1,19 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   MdOutlineKeyboardArrowDown,
   MdOutlineKeyboardArrowUp,
 } from "react-icons/md";
 import { motion } from "framer-motion";
 import ModalWords from "./ModalWords";
+import { client } from "../client";
+import { getWords } from "../utils/data";
 
-const CategoryCard = ({ name, takeId }) => {
+const CategoryCard = ({ name, takeId, id }) => {
   const [toggle, setToggle] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
+  const [data, setData] = useState([]);
+  const [toggleLoad, setToggleLoad] = useState(false);
 
   const onToggle = () => {
-    if (toggle) setToggle(false);
-    else setToggle(true);
+    setToggleLoad(true);
+
+    if (data.length === 0) {
+      const queryWords = getWords(id, 0, 20);
+      client.fetch(queryWords).then((data) => {
+        console.log(data);
+        setData(data);
+        setToggleLoad(false);
+        setToggle((prev) => !prev);
+      });
+    } else {
+      setToggleLoad(false);
+      setToggle((prev) => !prev);
+    }
   };
 
   const variationParent = {
@@ -86,16 +102,20 @@ const CategoryCard = ({ name, takeId }) => {
           </motion.div>
         </div>
 
-        <motion.div
-          variants={variatinsArrowButton}
-          animate={toggle ? "open" : "initial"}
-          onClick={onToggle}
-        >
-          <MdOutlineKeyboardArrowDown
-            fontSize={30}
-            className="cursor-pointer"
-          />
-        </motion.div>
+        {toggleLoad ? (
+          <p>Loading.. </p>
+        ) : (
+          <motion.div
+            variants={variatinsArrowButton}
+            animate={toggle ? "open" : "initial"}
+            onClick={onToggle}
+          >
+            <MdOutlineKeyboardArrowDown
+              fontSize={30}
+              className="cursor-pointer"
+            />
+          </motion.div>
+        )}
       </div>
 
       <motion.div
@@ -111,29 +131,31 @@ const CategoryCard = ({ name, takeId }) => {
             <th>Translate</th>
             <th>Pronauced</th>
           </tr>
-          {words.map(({ word, grammar, translate, pronauced, id }, index) => (
-            <motion.tr
-              variants={variantsList}
-              animate={toggle ? "open" : "initial"}
-              className="group"
-              onClick={takeId}
-              custom={index}
-              id={id}
-            >
-              <td className="rounded-l-lg group-hover:bg-customHoverBgWhite cursor-pointer px-2">
-                {word}
-              </td>
-              <td className=" group-hover:bg-customHoverBgWhite cursor-pointer">
-                {grammar}
-              </td>
-              <td className=" group-hover:bg-customHoverBgWhite cursor-pointer">
-                {translate}
-              </td>
-              <td className="rounded-r-lg group-hover:bg-customHoverBgWhite cursor-pointer">
-                {pronauced}
-              </td>
-            </motion.tr>
-          ))}
+          {data.map(
+            ({ word, gramar, translation, pronunciation, _id }, index) => (
+              <motion.tr
+                variants={variantsList}
+                animate={toggle ? "open" : "initial"}
+                className="group"
+                onClick={takeId}
+                custom={index}
+                id={_id}
+              >
+                <td className="rounded-l-lg group-hover:bg-customHoverBgWhite cursor-pointer px-2">
+                  {word}
+                </td>
+                <td className=" group-hover:bg-customHoverBgWhite cursor-pointer">
+                  {gramar}
+                </td>
+                <td className=" group-hover:bg-customHoverBgWhite cursor-pointer">
+                  {translation}
+                </td>
+                <td className="rounded-r-lg group-hover:bg-customHoverBgWhite cursor-pointer">
+                  {pronunciation}
+                </td>
+              </motion.tr>
+            )
+          )}
         </table>
       </motion.div>
     </motion.div>

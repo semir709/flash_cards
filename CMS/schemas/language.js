@@ -10,6 +10,14 @@ export const language = {
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      options: {
+        source: 'name',
+      },
+    },
+    {
       name: 'description',
       title: 'Description',
       type: 'string',

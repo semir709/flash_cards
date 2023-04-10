@@ -3,7 +3,7 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 import { motion } from "framer-motion";
 
 const ModalWords = ({
-  data: { word, translate, pronuced, grammar, rule_info, translate_info },
+  data: { word, translation, pronunciation, gramar, context },
   setOpenModal,
 }) => {
   const closeModal = () => {
@@ -44,22 +44,16 @@ const ModalWords = ({
           onClick={closeModal}
         />
         <h3 className=" w-fit text-5xl mb-2">{word}</h3>
-        <p className="text-xl mb-2">{translate}</p>
-        <p className="text-md mb-4">{translate_info}</p>
+        <p className="text-xl mb-2">{translation}</p>
+        {/* <p className="text-md mb-4">{translate_info}</p> */}
 
         <div className="flex w-full justify-between mb-5">
-          <p>{grammar}</p>
-          <p>{pronuced}</p>
+          <p>{gramar}</p>
+          <p>{pronunciation}</p>
         </div>
 
         <div className="w-full  my-3">
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut labore
-            iusto cumque libero temporibus voluptas tenetur aspernatur porro
-            quaerat sint? Lorem ipsum dolor sit amet consectetur adipisicing
-            elit. Aut labore iusto cumque libero temporibus voluptas tenetur
-            aspernat
-          </p>
+          <p>{context}</p>
         </div>
       </motion.div>
     </>

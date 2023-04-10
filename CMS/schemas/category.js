@@ -8,5 +8,11 @@ export const category = {
       title: 'Category name',
       type: 'string',
     },
+    {
+      name: 'language',
+      title: 'Language',
+      type: 'reference',
+      to: [{type: 'language'}],
+    },
   ],
 }
