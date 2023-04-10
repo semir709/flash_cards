@@ -1,15 +1,3 @@
-// export const getList = (id, startIndex, endIndex) => {
-//   const data = `*[_type == "words" && category->_id == "${id}" ]{
-//     _id,
-//     word,
-//     translation,
-//     pronunciation,
-//     gramar,
-//   }[${startIndex}..${endIndex}]`;
-
-//   return data;
-// };
-
 export const getCategories = (language, startIndex, endIndex) => {
   const data = `*[_type == "category" && language->slug.current == "${language}" ]{
     _id,
@@ -39,6 +27,15 @@ export const getWordsFull = (id) => {
     pronunciation,
     gramar,
     context
+}`;
+  return data;
+};
+
+export const getListLanguage = () => {
+  const data = `*[_type == "language"]{
+    _id,
+    name,
+    slug,
 }`;
   return data;
 };

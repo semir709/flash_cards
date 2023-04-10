@@ -21,16 +21,16 @@ const ListLanguage = ({ data }) => {
   return (
     <>
       <ul className="flex">
-        {data.map(({ slug, language }, index) => (
+        {data.map(({ slug, name, _id }) => (
           <motion.li
             className="mx-3 my-2 cursor-pointer text-customTextColor"
             data-slug={slug}
-            onClick={(e) => setLangListAction(index)}
+            onClick={(e) => setLangListAction(_id)}
             variants={listLanguageVar}
             whileHover="hover"
-            animate={langListAction === index ? "onClick" : "initial"}
+            animate={langListAction === _id ? "onClick" : "initial"}
           >
-            {language}
+            {name}
           </motion.li>
         ))}
       </ul>
