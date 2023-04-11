@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import Skeleton from "react-loading-skeleton";
 
 const listLanguageVar = {
   hover: {
@@ -15,25 +16,34 @@ const listLanguageVar = {
   },
 };
 
-const ListLanguage = ({ data }) => {
-  const [langListAction, setLangListAction] = useState(0);
+const ListLanguage = ({ data, setLangSlug, langSlug }) => {
+  // const [langListAction, setLangListAction] = useState(null);
+
+  useEffect(() => {
+    if (typeof data[0] !== "undefined") setLangSlug(data[0].slug.current);
+  }, [data, setLangSlug]);
 
   return (
     <>
-      <ul className="flex">
-        {data.map(({ slug, name, _id }) => (
-          <motion.li
-            className="mx-3 my-2 cursor-pointer text-customTextColor"
-            data-slug={slug}
-            onClick={(e) => setLangListAction(_id)}
-            variants={listLanguageVar}
-            whileHover="hover"
-            animate={langListAction === _id ? "onClick" : "initial"}
-          >
-            {name}
-          </motion.li>
-        ))}
-      </ul>
+      {data.length > 0 ? (
+        <ul className="flex">
+          {data.map(({ slug, name, _id }) => (
+            <motion.li
+              className="mx-3 my-2 cursor-pointer text-customTextColor"
+              onClick={(e) => setLangSlug(slug.current)}
+              variants={listLanguageVar}
+              whileHover="hover"
+              animate={langSlug === slug.current ? "onClick" : "initial"}
+            >
+              {name}
+            </motion.li>
+          ))}
+        </ul>
+      ) : (
+        <div className="w-[150px]">
+          <Skeleton count={1} className=" h-[20px]  my-[5px] rounded-lg" />
+        </div>
+      )}
     </>
   );
 };

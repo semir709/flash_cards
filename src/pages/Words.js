@@ -16,6 +16,7 @@ const Words = () => {
   const [category, setCategory] = useState([]);
   const [word, setWord] = useState(null);
   const [language, setLanguage] = useState([]);
+  const [langSlug, setLangSlug] = useState("engleski");
 
   useEffect(() => {
     const queryData = getCategories("engleski", 0, 10);
@@ -31,6 +32,16 @@ const Words = () => {
       setLoadingLanguage(false);
     });
   }, []);
+
+  useEffect(() => {
+    const queryData = getCategories(langSlug, 0, 10);
+    setLoadingLanguage(true);
+
+    client.fetch(queryData).then((data) => {
+      setCategory(data);
+      setLoadingLanguage(false);
+    });
+  }, [langSlug]);
 
   const takeId = (e) => {
     setLoadingModal(true);
@@ -49,11 +60,11 @@ const Words = () => {
     <>
       <div className="min-h-screen pt-[100px] px-[40px]">
         <div className="my-2">
-          {loadingLanguage ? (
-            <Skeleton count={1} className=" h-[30px] my-2" />
-          ) : (
-            <ListLanguage data={language} />
-          )}
+          <ListLanguage
+            data={language}
+            setLangSlug={setLangSlug}
+            langSlug={langSlug}
+          />
 
           <div className="bg-customTextColor w-full h-[1px]"></div>
         </div>
