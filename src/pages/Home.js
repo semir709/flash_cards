@@ -7,7 +7,7 @@ const Home = () => {
       <div className="md:w-[33.5%] relative">
         <div className="bg-blue-300 w-[100px] h-[100px] absolute bottom-5"></div>
       </div>
-      <div className="flex md:h-full justify-center items-center sm:w-[33.5%]  ">
+      <div className="flex md:h-full justify-center items-center sm:w-[33.5%] ">
         <StackOfCards cards={data} width={300} height={400} />
       </div>
       <div className="md:h-full relative md:w-[33.5%] ">

@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import ModalWords from "./ModalWords";
 import { client } from "../client";
 import { getWords } from "../utils/data";
+import { json } from "react-router-dom";
 
 const CategoryCard = ({ name, takeId, id }) => {
   const [toggle, setToggle] = useState(false);
@@ -92,6 +93,26 @@ const CategoryCard = ({ name, takeId, id }) => {
         className="w-full my-2 bg-customPrimary flex justify-between
          items-center px-5 py-1 rounded-lg text-white cursor-pointer"
       >
+        <div onClick={(e) => e.stopPropagation()}>
+          <input
+            type="checkbox"
+            name="categoryCheckBox"
+            data-id={id}
+            onClick={(e) => {
+              const id = e.target.getAttribute("data-id");
+
+              if (e.target.checked) {
+                localStorage.setItem(
+                  JSON.stringify(name.toLowerCase()),
+                  JSON.stringify(id)
+                );
+              } else {
+                localStorage.removeItem(JSON.stringify(name.toLowerCase()));
+              }
+            }}
+          />
+        </div>
+
         <div className="flex items-center">
           <motion.div
             className="mx-2 select-none"
@@ -163,34 +184,3 @@ const CategoryCard = ({ name, takeId, id }) => {
 };
 
 export default CategoryCard;
-
-const words = [
-  {
-    id: 1,
-    word: "Sun",
-    grammar: "muški rod",
-    translate: "Sunce",
-    pronauced: "San",
-  },
-  {
-    id: 2,
-    word: "Ballasd",
-    grammar: "muški rod",
-    translate: "Lopta",
-    pronauced: "Ball",
-  },
-  {
-    id: 3,
-    word: "House",
-    grammar: "muški rod",
-    translate: "Kuca",
-    pronauced: "Hause",
-  },
-  {
-    id: 4,
-    word: "Door",
-    grammar: "muški rod",
-    translate: "Vrata",
-    pronauced: "Door",
-  },
-];

@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { motion, useTransform, useMotionValue } from "framer-motion";
 import CorrectIncorrect from "./CorrectIncorrect";
 
-const Card = ({ data, setIndex }) => {
+const Card = ({ data, setIndex, width, height }) => {
   const x = useMotionValue(0);
   const xInput = [-100, 0, 100];
   const tickPath = useTransform(x, [10, 100], [0, 1]);
@@ -32,34 +32,32 @@ const Card = ({ data, setIndex }) => {
     }
   };
   return (
-    <>
-      <motion.div
-        className=" bg-green-300  w-full h-full absolute "
-        ref={refCard}
-        drag="x"
-        style={{ x }}
-        dragConstraints={{ left: 0, right: 0 }}
-        onDragEnd={handleDrag}
-        animate={
-          dragDirection === "right"
-            ? { x: 500, opacity: 0 }
-            : dragDirection === "left"
-            ? { x: -500, opacity: 0 }
-            : { x: 0 }
-        }
-        transition={{ duration: 0.2 }}
-        exit="exit"
-      >
-        {data}
+    <motion.div
+      className={`bg-green-300 absolute w-[${width}px] h-[${height}px] `}
+      ref={refCard}
+      drag="x"
+      style={{ x }}
+      dragConstraints={{ left: 0, right: 0 }}
+      onDragEnd={handleDrag}
+      animate={
+        dragDirection === "right"
+          ? { x: 500, opacity: 0 }
+          : dragDirection === "left"
+          ? { x: -500, opacity: 0 }
+          : { x: 0 }
+      }
+      transition={{ duration: 0.2 }}
+      exit="exit"
+    >
+      {data}
 
-        <CorrectIncorrect
-          tickPath={tickPath}
-          crossPathA={crossPathA}
-          crossPathB={crossPathB}
-          color={color}
-        />
-      </motion.div>
-    </>
+      <CorrectIncorrect
+        tickPath={tickPath}
+        crossPathA={crossPathA}
+        crossPathB={crossPathB}
+        color={color}
+      />
+    </motion.div>
   );
 };
 
