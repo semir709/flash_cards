@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   MdOutlineKeyboardArrowDown,
   MdOutlineKeyboardArrowUp,
@@ -75,10 +75,24 @@ const CategoryCard = ({ name, takeId, id }) => {
     }),
   };
 
+  const checkBoXRef = useRef();
+
   const variatinsArrowButton = {
     open: { rotate: 180 },
     initial: { rotate: 0 },
   };
+
+  useEffect(() => {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      const value = localStorage.getItem(key);
+
+      if (checkBoXRef.current.getAttribute("data-id") === JSON.parse(value)) {
+        checkBoXRef.current.checked = true;
+      }
+    }
+  }, []);
+
   return (
     <motion.div
       onHoverStart={() => setIsHovered(true)}
@@ -96,6 +110,7 @@ const CategoryCard = ({ name, takeId, id }) => {
         <div onClick={(e) => e.stopPropagation()}>
           <input
             type="checkbox"
+            ref={checkBoXRef}
             name="categoryCheckBox"
             data-id={id}
             onClick={(e) => {

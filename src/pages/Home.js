@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import StackOfCards from "../components/StackOfCards";
 
 const Home = () => {
+  useEffect(() => {
+    const data = { ...localStorage };
+
+    console.log(data);
+  }, []);
+
   return (
     <div className="h-screen  w-full md:flex justify-between items-stretch px-2">
       <div className="md:w-[33.5%] relative">
