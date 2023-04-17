@@ -1,34 +1,79 @@
-import React, { useEffect } from "react";
-import StackOfCards from "../components/StackOfCards";
+import React, { useEffect, useRef, useState } from "react";
+import { client } from "../client";
+import { getData } from "../utils/data";
 
 const Home = () => {
-  useEffect(() => {
-    const data = { ...localStorage };
+  const [data, setData] = useState([]);
+  const inputRef = useRef(null);
+  const [index, setIndex] = useState(0);
+  const [revile, setRevile] = useState(false);
 
-    console.log(data);
+  useEffect(() => {
+    const query = getData(0, 2);
+    client.fetch(query).then((data) => {
+      setData(data);
+      console.log(data);
+    });
   }, []);
 
-  return (
-    <div className="h-screen  w-full md:flex justify-between items-stretch px-2">
-      <div className="md:w-[33.5%] relative">
-        <div className="bg-blue-300 w-[100px] h-[100px] absolute bottom-5"></div>
-      </div>
-      <div className="flex md:h-full justify-center items-center sm:w-[33.5%] ">
-        <StackOfCards cards={data} width={300} height={400} />
-      </div>
-      <div className="md:h-full relative md:w-[33.5%] ">
-        <div className="absolute w-2/3 h-[100px] top-[20px] bg-red-300">
-          Message
-        </div>
+  const sendRequest = () => {
+    const values = inputRef.current.value.split(",");
 
-        <div className="w-3/4 absolute bottom-36">
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Et illo
-            aliquam consequatur? Mollitia quisquam quos enim, reiciendis nam
-            magnam dolorem? Lorem ipsum dolor sit amet consectetur adipisicing
-            elit. Et illo aliquam consequatur? Mollitia quisquam quos enim,
-            reiciendis nam magnam dolorem?
-          </p>
+    const query = getData(values[0], values[1]);
+
+    client.fetch(query).then((data) => {
+      setData(data);
+
+      console.log(data);
+    });
+  };
+
+  const next = () => {
+    setRevile(false);
+    if (index === data.length - 1) {
+      //radnomized
+      setIndex((prev) => (prev = 0));
+    } else {
+      setIndex((prev) => prev + 1);
+    }
+  };
+  return (
+    <div className="h-screen flex flex-col  items-center">
+      <div className="my-5">
+        <input
+          ref={inputRef}
+          className="border-2 mx-3 py-1 px-2"
+          type="text"
+          placeholder="type in format: start end"
+        />
+        <button
+          className="bg-gray-300 px-3 py-1"
+          type="button"
+          onClick={sendRequest}
+        >
+          Send
+        </button>
+      </div>
+
+      <div className="flex flex-col items-center">
+        {data.length > 0 ? (
+          <div className="bg-green-300 w-80">
+            {revile ? (
+              <h2>{data[index].translation}</h2>
+            ) : (
+              <h2>{data[index].word}</h2>
+            )}
+          </div>
+        ) : (
+          <p>NO data</p>
+        )}
+        <div className="flex w-full justify-between">
+          <button type="button" onClick={() => setRevile((prev) => !prev)}>
+            {revile ? "Hide" : "Show"}
+          </button>
+          <button type="button" onClick={next}>
+            Next
+          </button>
         </div>
       </div>
     </div>
@@ -36,26 +81,3 @@ const Home = () => {
 };
 
 export default Home;
-
-const data = [
-  {
-    id: 1,
-    title: "Card 1",
-  },
-  {
-    id: 2,
-    title: "Card 2",
-  },
-  {
-    id: 3,
-    title: "Card 3",
-  },
-  {
-    id: 4,
-    title: "Card 4",
-  },
-  {
-    id: 5,
-    title: "Card 5",
-  },
-];
