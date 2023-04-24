@@ -81,15 +81,15 @@ const Home = () => {
   };
   return (
     <div className="h-screen flex flex-col  items-center">
-      <div className="my-5">
+      <div className="my-5 min-[320px]:block flex flex-col items-center">
         <input
           ref={inputRef}
-          className="border-2 mx-3 py-1 px-2"
+          className="border-2 mx-3 py-1 px-2 "
           type="text"
           placeholder="startIndex,endIndex"
         />
         <button
-          className="bg-gray-300 px-3 py-1"
+          className="bg-gray-300 px-3 py-1 my-2"
           type="button"
           onClick={sendRequest}
         >
@@ -99,26 +99,39 @@ const Home = () => {
 
       {message && <p className="text-red-300">{message}</p>}
 
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center ">
         {loading ? (
           <p>Loading...</p>
         ) : data.length > 0 ? (
-          <div className="bg-green-300 w-80">
+          <div className="bg-green-300 min-[320px]:w-80 w-full p-5 h-[150px]">
             {revile ? (
-              <h2>{data[index].translation}</h2>
+              <div className="w-full flex flex-col items-center">
+                <h2 className="text-4xl">{data[index].translation}</h2>
+              </div>
             ) : (
-              <h2>{data[index].word}</h2>
+              <div className="w-full flex flex-col items-center">
+                <h2 className="text-4xl">{data[index].word}</h2>
+                <p className="mt-5">{data[index].gramar}</p>
+              </div>
             )}
           </div>
         ) : (
           <p>NO data</p>
         )}
 
-        <div className="flex w-full justify-between">
-          <button type="button" onClick={() => setRevile((prev) => !prev)}>
+        <div className="flex w-full justify-between ">
+          <button
+            className="bg-gray-300 py-2 px-4 mt-2"
+            type="button"
+            onClick={() => setRevile((prev) => !prev)}
+          >
             {revile ? "Hide" : "Show"}
           </button>
-          <button type="button" onClick={next}>
+          <button
+            className="bg-gray-300 py-2 px-4 mt-2"
+            type="button"
+            onClick={next}
+          >
             Next
           </button>
         </div>
